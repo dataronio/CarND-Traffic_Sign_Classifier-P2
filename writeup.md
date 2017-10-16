@@ -31,12 +31,13 @@ Traffic sign image shape is in the form (Height, Width, Channels).  The dataset 
 
 ### Exploratory Visualization of the Dataset ###
 
+A file encoding class label with sign type is [signnames.csv](https://github.com/dataronio/CarND-Traffic_Sign_Classifier-P2/blob/master/signnames.csv)
 
 I provide a bar chart below showing the class/label data percentage over the data between the three dataset splits of training, validation and test.  This chart verifies that the data splits chosen are similar to each other in class proportions.  However, we can see that the classes are highly imbalanced.  Classes such as 0 (Speed limit (20km/h)), 19 (Dangerous curve to the left), and 24 (Road narrows on the right) have less than 20% as populous as more common signs such as 13 (Yield).  This makes it far harder for the network to generalize and correctly predict these rarer classes.  A useful strategy for a further step would be to balance the sampling of sign classes or further augment the rare sign classes to equalize the class proportions.  I have chosen not to do any data augmentation or balancing at this time.
 
 ![alt text][image10]
 
-Further results and visualization can be found in my notebook code at [project code] (https://github.com/dataronio/CarND-Traffic_Sign_Classifier-P2/blob/master/Traffic_Sign_Classifier.ipynb).
+Further results and visualization can be found in my notebook code at [project code] (https://github.com/dataronio/CarND-Traffic_Sign_Classifier-P2/blob/master/Traffic_Sign_Classifier.ipynb)
 
 ### Design and Test a Model Architecture ###
 
