@@ -37,7 +37,7 @@ I provide a bar chart below showing the class/label data percentage over the dat
 
 ![alt text][image10]
 
-Further results and visualization can be found in my notebook code at [project code] (https://github.com/dataronio/CarND-Traffic_Sign_Classifier-P2/blob/master/Traffic_Sign_Classifier.ipynb)
+Further results and visualization can be found in my notebook code at [project code](https://github.com/dataronio/CarND-Traffic_Sign_Classifier-P2/blob/master/Traffic_Sign_Classifier.ipynb)
 
 ### Design and Test a Model Architecture ###
 
