@@ -43,7 +43,7 @@ Further results and visualization can be found in my notebook code at [project c
 
 #### Pre-process the Data Set (normalization, grayscale, etc.) ####
 
-Previous researchers have found that grayscaling the color images does little damage to accuracy and is easier to train.  Normalization of neural network inputs to a small range such as [-1,1] centered about zeros improves the scaling of the weights and thus inproves the convergence of gradient descent.  Following these best practices I grayscale the images using standard OpenCV functions and normalize be simply subtracting by 128.0 followed by dividing the result by 128.0.  This normalizes image data which is in the range [0, 255] into the range [-1, 1].
+Previous researchers have found that grayscaling the color images does little damage to accuracy and is easier to train.  Normalization of neural network inputs to a small range such as [-1,1] centered about zeros improves the scaling of the weights and thus inproves the convergence of gradient descent.  Following these best practices, I then grayscale the images using standard OpenCV functions and normalize be simply subtracting by 128.0 followed by dividing the result by 128.0.  This normalizes image data which is in the range [0, 255] into the range [-1, 1].
 
 Here is an example of grayscaling an image in this dataset:
 
@@ -71,6 +71,51 @@ Detail of my final model architecture follows:
 | Dropout               | probability 0.5                               |
 | Softmax				| 43 classes        							|
 |						|												|
+
+#### Training the Model ####
+
+The objective for the model is softmax cross-entropy using the Adam optimizer option in Tensorflow.
+The network weights were initialized with truncated normal (mean=0, sigma=0.1). Biases were always initialized at zero.  The learning rate was 0.001 and
+I coded a simple early stopping code to save the model after an increase in validation set accuracy.
+The model was then trained for 200 epochs.
+
+#### Approach for Finding Final Model Architecture ####
+
+I initially used a model quite similar to the original LeNet model just to get things working.  LeNet style convolutional neural networks have been show to have excellent results on image data much like the current traffic sign dataset.  This model had two fully connected layers each followed by dropout(Prob=0.5) to help regularize rather than LeNets single dense layer.  I couldn't achieve results reliably above 0.92 accuracy.  I then decided to increase the size of the network to combat this perceived underfitting.  My second model contained 3 convolutional-MaxPool layers (6, 32, 64 filters) followed by two large fully-connected (1500, 500 neurons).  I found this model interesting but much more difficult to train.  Further work on a model of this size could probably lead to useful results after balancing and augmentation of the dataset. Increases of the learning rate caused instability during training.  Further work on annealing down the learning rate as training progresses would probably be useful.
+
+I decided to use a slightly larger version of my first model for the final architecture.  Training was stable and progressed nicely.  Dropout appeared to help validation accuracy immensely.  Randomly dropping neurons in the final layers helped to keep the network from overfitting and helped to create more stable models on the validation set.
+
+After working on the third and final architecture and being happy with validation results, I ran the test data and ended all experimentation.
+
+Final model results were:
+
+* validation set accuracy of 0.96  
+* test set accuracy of 0.943
+
+### Test the Model on New Images ###
+
+#### Discussion of New Images ####
+
+I found five images of German traffic signs on the web to use as a new data test:
+
+![alt text][image2] ![alt text][image3] ![alt text][image4] 
+![alt text][image5] ![alt text][image6]
+
+The first image (roadwork) is distinctive and fills up the frame nicely.  The sign itself is more weather beaten than typical images in the dataset.
+
+The second image (end of all speed limits) is a rare sign that should be a difficult test for the network.  The fine lines of this sign will be difficult to resolve with only a 32x32 image.  It is also small in relation to the image.  Most images in the dataset have a very small margin around them.  This should be a difficult test for the network.
+
+The third image (no passing) is in bad condition and should be difficult to resolve.  The no passing sign (red car on left) is an example that shows that using color in the input rather that simply grayscale could be helpful information.
+
+The fourth image (priority road) is in excellent shape and is a very common sign in the dataset.  I don't expect any issues with this sign.
+
+The final image (bumpy road) is in used condition on a completely black background.  This is considerably different than the typical sign background in the dataset and should prove a challenge.
+
+#### Discussion of model predictions on New Signs ####
+
+New sign prediction accuracy is only 0.4 (2 of 5 signs).  Accuracy is greatly reduced from test set accuracy.  In my discussion above,  I highlight the differences of my web images with the dataset.  My web images in general are smaller in the frame, in much worse condition and some have different background than images from the dataset.  The German Traffic Sign dataset has certain requirements for the margin size and this is not met by my images.     
+
+
 
 
 
