@@ -33,7 +33,7 @@ Traffic sign image shape is in the form (Height, Width, Channels).  The dataset 
 
 A file encoding class label with sign type is [signnames.csv](https://github.com/dataronio/CarND-Traffic_Sign_Classifier-P2/blob/master/signnames.csv)
 
-I provide a bar chart below showing the class/label data percentage over the data between the three dataset splits of training, validation and test.  This chart verifies that the data splits chosen are similar to each other in class proportions.  However, we can see that the classes are highly imbalanced.  Classes such as 0 (Speed limit (20km/h)), 19 (Dangerous curve to the left), and 24 (Road narrows on the right) have less than 20% as populous as more common signs such as 13 (Yield).  This makes it far harder for the network to generalize and correctly predict these rarer classes.  A useful strategy for a further step would be to balance the sampling of sign classes or further augment the rare sign classes to equalize the class proportions.  I have chosen not to do any data augmentation or balancing at this time.
+I provide a bar chart below showing the class/label data percentage over the data between the three dataset splits of training, validation and test.  This chart verifies that the data splits chosen are similar to each other in class proportions.  However, we can see that the classes are highly imbalanced.  Classes such as 0 (Speed limit (20km/h)), 19 (Dangerous curve to the left), and 24 (Road narrows on the right) are less than 20% as populous as more common signs such as 13 (Yield).  This makes it far harder for the network to generalize and correctly predict these rarer classes.  A useful strategy for a further step would be to balance the sampling of sign classes or further augment the rare sign classes to equalize the class proportions.  I have chosen not to do any data augmentation or balancing at this time.
 
 ![alt text][image10]
 
@@ -75,13 +75,13 @@ Detail of my final model architecture follows:
 #### Training the Model ####
 
 The objective for the model is softmax cross-entropy using the Adam optimizer option in Tensorflow.
-The network weights were initialized with truncated normal (mean=0, sigma=0.1). Biases were always initialized at zero.  The learning rate was 0.001 and
+The network weights were initialized as truncated normal (mean=0, sigma=0.1). Biases were always initialized at zero.  The learning rate was 0.001 and
 I coded a simple early stopping code to save the model after an increase in validation set accuracy.
 The model was then trained for 200 epochs with a 128 batch size. I found a smaller batch size was useful in adding noise which kept the models from plateauing during training.  Higher batch sizes appeared more stable during training but would often get stuck before reaching full potential on the validation set.
 
 #### Approach for Finding Final Model Architecture ####
 
-I initially used a model quite similar to the original LeNet model just to get things working.  LeNet style convolutional neural networks have been show to have excellent results on image data much like the current traffic sign dataset.  This model had two fully connected layers each followed by dropout(Prob=0.5) to help regularize rather than LeNets single dense layer.  I couldn't achieve results reliably above 0.92 accuracy.  I then decided to increase the size of the network to combat this perceived underfitting.  My second model contained 3 convolutional-MaxPool layers (6, 32, 64 filters) followed by two large fully-connected (1500, 500 neurons).  I found this model interesting but much more difficult to train.  Further work on a model of this size could probably lead to useful results after balancing and augmentation of the dataset. Increases of the learning rate caused instability during training.  Further work on annealing down the learning rate as training progresses would probably be useful.
+I initially used a model quite similar to the original LeNet model just to get things working.  LeNet style convolutional neural networks have been show to have excellent results on image data much like the current traffic sign dataset.  This model had two convolutional-maxpool layers followed by two fully connected layers that were each followed by dropout(Prob=0.5) to help generalize better.  LeNet has only a single dense layer before the softmax output.  With this first network, I couldn't achieve results reliably above 0.92 accuracy.  I then decided to increase the size of the network to combat this perceived underfitting.  My second model contained 3 convolutional-MaxPool layers (6, 32, 64 filters) followed by two large fully-connected (1500, 500 neurons).  I found this model interesting but much more difficult to train.  Further work on a model of this size could probably lead to useful results after balancing and augmentation of the dataset. Increases of the learning rate caused instability during training.  Further work on annealing down the learning rate as training progresses would probably be useful as well.
 
 I decided to use a slightly larger version of my first model for the final architecture.  Training was stable and progressed nicely.  Dropout appeared to help validation accuracy immensely.  Randomly dropping neurons in the final layers helped to keep the network from overfitting and helped to create more stable models on the validation set.
 
@@ -91,6 +91,8 @@ Final model results were:
 
 * validation set accuracy of 0.96  
 * test set accuracy of 0.943
+
+Test set accuracy holds up quite nicely.  I do not feel that overfit is a major issue.
 
 ### Test the Model on New Images ###
 
