@@ -113,7 +113,77 @@ The final image (bumpy road) is in used condition on a completely black backgrou
 
 #### Discussion of model predictions on New Signs ####
 
-New sign prediction accuracy is only 0.4 (2 of 5 signs).  Accuracy is greatly reduced from test set accuracy.  In my discussion above,  I highlight the differences of my web images with the dataset.  My web images in general are smaller in the frame, in much worse condition and some have different background than images from the dataset.  The German Traffic Sign dataset has certain requirements for the margin size and this is not met by my images.     
+New sign prediction accuracy is only 0.4 (2 of 5 signs).  Accuracy is greatly reduced from test set accuracy.  In my discussion above,  I highlight the differences of my web images with the dataset.  My web images in general are smaller in the frame, in much worse condition and some have different backgrounds than images from the dataset.  The German Traffic Sign dataset has certain requirements for the margin size and this is not met by my images.     
+
+The predictions of the network is as follows:
+
+| Input Image     		|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| Road Work (25)      	|  Road Work (25) - correct   					| 
+| End of all Limits (32)| Right of way at next intersection  (11)     	|
+| No Passing (9)        | End of No Passing (41)                        |
+| Priority Road (12)    | Priority Road (12) - correct                  |
+| Bumpy Road (22)       | Speed Limit (20 Km/hr)                        |
+|                       |                                               |
+
+
+#### Analyze the Softmax Probability Predictions for New Signs ####
+
+For the first image, the model is completely sure that this is a road work sign (probability of ~1.0), and the image is a road work sign. The top five soft max probabilities were
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| .0         			| Speed Limit (60 Km/hr) 						| 
+| .0    				| Speed Limit (50 Km/hr) 						|
+| .0					| Speed Limit (30 Km/hr) 						|
+| .0	      			| Speed Limit (20 Km/hr) 						|
+| 1.0				    | Road Work         							|
+
+
+For the second image, the model is completely sure that this is a right-of-Way sign (probability of ~1.0), but the image is a end of all speed limits sign. The top five soft max probabilities were
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| .0         			| Speed Limit (60 Km/hr) 						| 
+| .0    				| Speed Limit (50 Km/hr) 						|
+| .0					| Speed Limit (30 Km/hr) 						|
+| .0	      			| Speed Limit (20 Km/hr) 						|
+| 1.0				    | Right-of-Way at Next Intersection     		|
+
+For the third image, the model is completely sure that this is a end of no passing sign (probability of ~1.0), but the image is a no passing sign. The top five soft max probabilities were
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| .0         			| Speed Limit (60 Km/hr) 						| 
+| .0    				| Speed Limit (50 Km/hr) 						|
+| .0					| Speed Limit (30 Km/hr) 						|
+| .0	      			| Speed Limit (20 Km/hr) 						|
+| 1.0				    | End of No Passing    							|
+
+
+For the fourth image, the model is completely sure that this is a priority road sign (probability of ~1.0). The image has been correctly identified. The top five soft max probabilities were
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| .0         			| Speed Limit (60 Km/hr) 						| 
+| .0    				| Speed Limit (50 Km/hr) 						|
+| .0					| Speed Limit (30 Km/hr) 						|
+| .0	      			| Speed Limit (20 Km/hr) 						|
+| 1.0				    | Priority Road       							|
+
+
+For the final image, the model is completely sure that this is a Speed Limit (20 km/hr) (probability of ~1.0), but the image is a bumpy road sign. The top five soft max probabilities were
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| .0         			| Speed Limit (60 Km/hr) 						| 
+| .0    				| Speed Limit (50 Km/hr) 						|
+| .0					| Speed Limit (30 Km/hr) 						|
+| .0	      			| Speed Limit (20 Km/hr) 						|
+| 1.0				    | Bumpy Road         							|
+
+The output probabilities are saturated to 1.0 for each test image.  This is not a good sign and seems to indicate overfit even though it gets excellent out of sample (test) result on the dataset.  Alternate forms of German Traffic Signs such as my web images are not well classified and the network is always far too sure of its classification.  My prescription for these issues in a further optional investigation is to introduce impulse noise (speckle) into the dataset to help regularize and improve generalization.  Also, as I mentioned previously augmentation and balancing the dataset are indicated as well.
+
 
 
 
