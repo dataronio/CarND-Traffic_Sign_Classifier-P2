@@ -77,7 +77,7 @@ Detail of my final model architecture follows:
 The objective for the model is softmax cross-entropy using the Adam optimizer option in Tensorflow.
 The network weights were initialized with truncated normal (mean=0, sigma=0.1). Biases were always initialized at zero.  The learning rate was 0.001 and
 I coded a simple early stopping code to save the model after an increase in validation set accuracy.
-The model was then trained for 200 epochs.
+The model was then trained for 200 epochs with a 128 batch size. I found a smaller batch size was useful in adding noise which kept the models from plateauing during training.  Higher batch sizes appeared more stable during training but would often get stuck before reaching full potential on the validation set.
 
 #### Approach for Finding Final Model Architecture ####
 
